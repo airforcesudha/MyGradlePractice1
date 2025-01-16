@@ -1,30 +1,35 @@
 package patientsServs.patientServicesEnrolment.models;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "Table_Patient1188")
+@Table(name = "Table_Patient_Details")
 public class Patient {
 
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
+    
+    
     private int age;
+    
+    private LocalDate dateOfBirth;
 
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "Table_patientdisease1188", 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "Table_patientdisease_Details", 
                joinColumns = @JoinColumn(name = "patient_id"), 
                inverseJoinColumns = @JoinColumn(name = "disease_id"))
-    //@JsonBackReference
+    
     private List<Disease> diseases = new ArrayList<>();
 
 	public Long getId() {
@@ -51,6 +56,14 @@ public class Patient {
 		this.age = age;
 	}
 
+	public LocalDate getDateOfBirth() {
+		return dateOfBirth;
+	}
+
+	public void setDateOfBirth(LocalDate dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+
 	public List<Disease> getDiseases() {
 		return diseases;
 	}
@@ -58,6 +71,8 @@ public class Patient {
 	public void setDiseases(List<Disease> diseases) {
 		this.diseases = diseases;
 	}
+
+	
     
     
 }
