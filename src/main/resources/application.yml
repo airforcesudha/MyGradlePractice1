@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: patientServicesEnrolment
+  datasource:
+    url: jdbc:sqlserver://mt-share;encrypt=false;databaseName=MT_Freshers Training;integratedSecurity=true
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+
+server:
+  port: 8081
