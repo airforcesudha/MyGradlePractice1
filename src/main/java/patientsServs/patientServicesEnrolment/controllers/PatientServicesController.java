@@ -1,5 +1,6 @@
 package patientsServs.patientServicesEnrolment.controllers;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -129,15 +130,30 @@ public class PatientServicesController {
 	@GetMapping("/by_Date_Of_Birth/{startDate}/{endDate}")
 	public ResponseEntity<Object> byDOB(@PathVariable("startDate") String startDate,
 			@PathVariable("endDate") String endDate) {
+		
 		logger.info("Fetching patients by DOB range: {} - {}", startDate, endDate); // the request for DOB range
 
-		if (services.byDOB(startDate, endDate).size() == 0) {
-			logger.info("No patients found for the given DOB range"); // if no patients are found
-			return ResponseEntity.status(HttpStatus.OK).body("NO PATIENTS AT GIVEN DATE OF BIRTH RANGE.");
-		} else {
-			logger.info("Patients found in the given DOB range"); // if patients are found
-			return ResponseEntity.status(HttpStatus.OK).body(services.byDOB(startDate, endDate));
+		
+		//checking date of birth like starting date must be less than ending date
+		LocalDate startingDate = LocalDate.parse(startDate);
+        LocalDate endingDate = LocalDate.parse(endDate);
+		if(startingDate.isBefore(endingDate)) {
+			
+			if (services.byDOB(startDate, endDate).size() == 0) {
+				logger.info("No patients found for the given DOB range"); // if no patients are found
+				return ResponseEntity.status(HttpStatus.OK).body("NO PATIENTS AT GIVEN DATE OF BIRTH RANGE.");
+			} else {
+				logger.info("Patients found in the given DOB range"); // if patients are found
+				return ResponseEntity.status(HttpStatus.OK).body(services.byDOB(startDate, endDate));
+			}
+			
+		}else {
+			
+			logger.info("Given Date Range Invalid."); // if invalid date range
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID DATE RANGE, GIVEN STARTING DATE MUST BE SMALLER THAN ENDING DATE");
 		}
+		
+		
 
 	}
 	

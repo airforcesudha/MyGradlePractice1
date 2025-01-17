@@ -9,6 +9,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -19,7 +21,7 @@ import jakarta.persistence.Table;
 @Table(name = "Table_Disease_Details")
 public class Disease {
 	 	@Id
-	 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 
 	    private String name;
@@ -28,8 +30,8 @@ public class Disease {
 	    @JsonBackReference
 	    private List<Patient> patients = new ArrayList<>();
 
-	    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-	    @JoinTable(name = "Table_diseasemedication_Details",
+	    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE})
+	    @JoinTable(name = "Table_diseaseMedication_Details",
 	               joinColumns = @JoinColumn(name = "disease_id"),
 	               inverseJoinColumns = @JoinColumn(name = "medication_id"))
 	    private List<Medication> medications;

@@ -161,7 +161,7 @@ public class PatientsServices {
         
         for (Patient patient : patientsList) {
             LocalDate currentDOB = patient.getDateOfBirth();
-            if (currentDOB.isAfter(startingDate) && currentDOB.isBefore(endingDate)) {
+            if ((currentDOB.isAfter(startingDate) && currentDOB.isBefore(endingDate)) || (startingDate.equals(currentDOB)) || (endingDate.equals(currentDOB))) {
                 sortedList.add(patient);
             }
         }

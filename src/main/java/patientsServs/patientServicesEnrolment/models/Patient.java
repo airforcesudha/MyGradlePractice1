@@ -15,7 +15,7 @@ public class Patient {
 
 	
 	@Id
-	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String name;
@@ -25,11 +25,10 @@ public class Patient {
     
     private LocalDate dateOfBirth;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(name = "Table_patientdisease_Details", 
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE})
+    @JoinTable(name = "Table_patientDisease_Details", 
                joinColumns = @JoinColumn(name = "patient_id"), 
                inverseJoinColumns = @JoinColumn(name = "disease_id"))
-    
     private List<Disease> diseases = new ArrayList<>();
 
 	public Long getId() {
