@@ -174,6 +174,26 @@ public class PatientsServices {
         
         return sortedList;
     }
+    
+    
+    
+    
+    // get Patient by name
+    public List<Patient> getPatientByName(String patientName) {
+    	
+    	logger.info("Fetching patients by Name: {}",patientName);
+    	
+    	List<Patient> sortedPatientsList = new ArrayList<Patient>();
+    	
+    	for (Patient patient : patientRep.findAll()) {
+			if((patient.getName().equalsIgnoreCase(patientName)) || (patient.getName().toLowerCase().startsWith(patientName.toLowerCase()))) {
+				sortedPatientsList.add(patient);
+			}
+		}
+    	
+    	return sortedPatientsList;
+    	
+    }
 	
 
 }

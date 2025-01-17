@@ -1,6 +1,7 @@
+# Spring application-specific configurations
 spring:
   application:
-    name: patientServicesEnrolment
+    name: patientServicesEnrolment  # Name of the Spring Boot application
   datasource:
     url: jdbc:sqlserver://mt-share;encrypt=false;databaseName=MT_Freshers Training;integratedSecurity=true
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
@@ -12,5 +13,15 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.SQLServerDialect
 
+# Server-specific configurations
 server:
-  port: 8081
+  port: 8081  # Application will run on this port
+
+# Logging configuration
+logging:
+  level:
+    root: INFO  # Default logging level
+    org.springframework: DEBUG  # Debug logging for Spring framework
+    patientsServs: DEBUG  # Debug logging for your package
+  file:
+    name: logs/patientServicesEnrolment.log  # Log file path

@@ -27,14 +27,10 @@ public class PatientServicesController {
 
 	// Logger for the controller
 	private static final Logger logger = LoggerFactory.getLogger(PatientServicesController.class);
-	
-	
 
 	// injecting required dependiences into the PatientServicesController
 	@Autowired
 	PatientsServices services;
-	
-	
 
 	// Save a new patient
 	@PostMapping("/save_New_Patient")
@@ -42,6 +38,7 @@ public class PatientServicesController {
 		logger.info("Attempting to save a new patient: {}", patient); // the attempt to save patient
 		return ResponseEntity.status(HttpStatus.CREATED).body(services.savePatient(patient));
 	}
+	
 	
 	
 
@@ -92,8 +89,6 @@ public class PatientServicesController {
 	
 	
 	
-	
-	
 
 	// Get the Overall Information like Total No of patients , disease and medicines
 	// registered
@@ -102,7 +97,6 @@ public class PatientServicesController {
 		logger.info("Fetching the total number of registered patients"); // the request for registration data
 		return ResponseEntity.status(HttpStatus.OK).body(services.RegistarationDetails());
 	}
-	
 	
 	
 	
@@ -124,21 +118,20 @@ public class PatientServicesController {
 	
 	
 	
-	
 
 	// Delete patient by ID
 	@GetMapping("/by_Date_Of_Birth/{startDate}/{endDate}")
 	public ResponseEntity<Object> byDOB(@PathVariable("startDate") String startDate,
 			@PathVariable("endDate") String endDate) {
-		
+
 		logger.info("Fetching patients by DOB range: {} - {}", startDate, endDate); // the request for DOB range
 
-		
-		//checking date of birth like starting date must be less than ending date
+		// checking date of birth like starting date must be less than ending date
 		LocalDate startingDate = LocalDate.parse(startDate);
-        LocalDate endingDate = LocalDate.parse(endDate);
-		if(startingDate.isBefore(endingDate)) {
-			
+		LocalDate endingDate = LocalDate.parse(endDate);
+
+		if (startingDate.isBefore(endingDate)) {
+
 			if (services.byDOB(startDate, endDate).size() == 0) {
 				logger.info("No patients found for the given DOB range"); // if no patients are found
 				return ResponseEntity.status(HttpStatus.OK).body("NO PATIENTS AT GIVEN DATE OF BIRTH RANGE.");
@@ -146,17 +139,27 @@ public class PatientServicesController {
 				logger.info("Patients found in the given DOB range"); // if patients are found
 				return ResponseEntity.status(HttpStatus.OK).body(services.byDOB(startDate, endDate));
 			}
-			
-		}else {
-			
+		} else {
 			logger.info("Given Date Range Invalid."); // if invalid date range
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("INVALID DATE RANGE, GIVEN STARTING DATE MUST BE SMALLER THAN ENDING DATE");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body("INVALID DATE RANGE, GIVEN STARTING DATE MUST BE SMALLER THAN ENDING DATE");
 		}
-		
-		
 
 	}
 	
 	
+	
+	
+	// fetch patient details by name
+	@GetMapping("/byName/{patientName}")
+	public ResponseEntity<Object> getPatientByName(@PathVariable("patientName") String patientName){
+		
+		if(services.getPatientByName(patientName).size() != 0) {
+			return ResponseEntity.status(HttpStatus.OK).body(services.getPatientByName(patientName));
+		}else {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PATIENTS NOT FOUND ON GIVEN NAME : " + patientName);
+		}
+		
+	}
 
 }
