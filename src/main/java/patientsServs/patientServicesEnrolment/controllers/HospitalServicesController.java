@@ -1,11 +1,11 @@
 package patientsServs.patientServicesEnrolment.controllers;
 
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import patientsServs.patientServicesEnrolment.DTO.AddDeptListRequest;
 import patientsServs.patientServicesEnrolment.ServiceLayer.HospitalServices;
-import patientsServs.patientServicesEnrolment.models.Department;
 import patientsServs.patientServicesEnrolment.models.Hospital;
 
 @RestController
@@ -40,20 +39,6 @@ public class HospitalServicesController {
 	}
 	
 	
-	
-	
-	@PostMapping("/register_new_department")
-	public ResponseEntity<Object> newDepartment(@RequestBody Department dept){
-		
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(hospitalService.saveNewDepartment(dept));
-		} catch (Exception e) {
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("ERROR : " + e.getMessage());
-		}
-	}
-	
-	
-	
 	@PostMapping("/add_department/{hospital_id}")
 	public ResponseEntity<Object> addDepartmnet(@PathVariable("hospital_id") long hospital_id,@RequestBody AddDeptListRequest dList){
 		try {
@@ -61,9 +46,10 @@ public class HospitalServicesController {
 		} catch (Exception e) {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
-		
 	}
 	
 	
+	
+
 	
 }

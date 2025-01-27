@@ -12,6 +12,7 @@ import jakarta.persistence.*;
 @Table(name = "Patient_tbl")
 public class Patient {
 
+	
     // Primary key for the Patient entity, with auto-generated value.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -47,11 +48,9 @@ public class Patient {
     )
     private List<Medication> medications = new ArrayList<>();
     
-
    
     @ManyToMany(mappedBy = "patients")
     private List<Doctor> doctors = new ArrayList<>();
-
 
 
 	public Long getId() {
@@ -137,8 +136,4 @@ public class Patient {
 	}
     
 
-	
-    
-    
-    
 }

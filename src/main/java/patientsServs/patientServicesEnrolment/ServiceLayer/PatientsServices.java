@@ -37,17 +37,8 @@ public class PatientsServices implements ServiceIMP{
 	
 	
 	
-	
-	// Sample method for testing
-    public String sample() {
-        logger.info("Sample method called");
-        return "sample";
-    }
-	
-	
-	
-	
 	// Check if patient exists
+    @Override
     public boolean isPatientExist(Long patientId) {    
         logger.info("Checking if patient with ID: {} exists", patientId);
         Patient patient = patientRep.findById(patientId).orElse(null);
@@ -65,6 +56,7 @@ public class PatientsServices implements ServiceIMP{
     
 	
     // Save patient
+    @Override
     @Transactional
     public Patient savePatient(Patient patient) {
         logger.info("Saving patient: {}", patient);
@@ -75,6 +67,7 @@ public class PatientsServices implements ServiceIMP{
 	
 	
  // Get all patients
+    @Override
     public List<Patient> getAllPatients() {
         logger.info("Fetching all patients");
         return patientRep.findAll();
@@ -85,6 +78,7 @@ public class PatientsServices implements ServiceIMP{
     
     
  // Get patient by ID
+    @Override
     public Patient getPatientById(Long ID) {
         logger.info("Fetching patient with ID: {}", ID);
         Patient patient = patientRep.findById(ID).orElse(null);
@@ -102,6 +96,7 @@ public class PatientsServices implements ServiceIMP{
     
     
  // Update patient by ID
+    @Override
     public String updatePatient(Long id, Patient patient) {
         logger.info("Updating patient with ID: {}", id);
         if (getPatientById(id) == null) {
@@ -119,6 +114,7 @@ public class PatientsServices implements ServiceIMP{
     
     
  // Delete patient by ID
+    @Override
     public String deletePatient(Long id) {
         logger.info("Deleting patient with ID: {}", id);
         patientRep.deleteById(id);
@@ -130,6 +126,7 @@ public class PatientsServices implements ServiceIMP{
 	
 	
  // Get registration details (total patients, diseases, medications)
+    @Override
     public String RegistarationDetails() {
         logger.info("Fetching registration details");
         Integer totalPatients = patientRep.findAll().size();
@@ -150,6 +147,7 @@ public class PatientsServices implements ServiceIMP{
 	
     
  // Get patients by Date of Birth (DOB) range
+    @Override
     public List<Patient> byDOB(LocalDate startDate, LocalDate endDate) {
         logger.info("Fetching patients by DOB range: {} to {}", startDate, endDate);
         
@@ -169,12 +167,11 @@ public class PatientsServices implements ServiceIMP{
     
     
     // get Patient by name
+    @Override
     public List<Patient> getPatientByName(String patientName) {
     	
     	logger.info("Fetching patients by Name: {}",patientName);
     	return patientRep.findPatientsByName(patientName);
-    
-    	
     }
 
 	

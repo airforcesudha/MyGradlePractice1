@@ -12,9 +12,10 @@ import patientsServs.patientServicesEnrolment.Repositories.DepartmentRepository;
 import patientsServs.patientServicesEnrolment.Repositories.HospitalRepository;
 import patientsServs.patientServicesEnrolment.models.Department;
 import patientsServs.patientServicesEnrolment.models.Hospital;
+import patientsServs.patientServicesEnrolment.serviceIMP.HospitalServiceIMP;
 
 @Service
-public class HospitalServices {
+public class HospitalServices implements HospitalServiceIMP{
 
 	
 	@Autowired
@@ -23,17 +24,15 @@ public class HospitalServices {
 	@Autowired
 	private DepartmentRepository deptRep;
 	
-	
+	@Override
 	public Hospital saveNewHospita(Hospital hospital) {
 		return hospitalRep.save(hospital);
 	}
 	
-	public Department saveNewDepartment(Department dept) {
-		return deptRep.save(dept);
-	}
 	
 	
 	
+	@Override
 	@Transactional
 	public Hospital addDept(long hosp_Id, List<Long> depts_List) {
 		
@@ -46,9 +45,7 @@ public class HospitalServices {
 		}
 		
 		return hospital;
-
 	}
-	
 	
 
 	

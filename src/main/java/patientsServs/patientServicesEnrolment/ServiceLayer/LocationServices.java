@@ -18,6 +18,7 @@ public class LocationServices implements LocationServiceIMP {
 	@Autowired
 	private LocationRepository locationRep;
 
+	
 	@Override
 	public Location Add_Location(Location location) {
 		return locationRep.save(location);
@@ -25,11 +26,9 @@ public class LocationServices implements LocationServiceIMP {
 
 	
 	
-	
+	@Override
 	public List<Location_DTO> locations(){
-		
 		return locationRep.findAllLocationsWithoutHospitals();
-		
 	}
 
 }

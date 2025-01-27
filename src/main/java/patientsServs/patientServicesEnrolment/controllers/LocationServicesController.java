@@ -12,12 +12,17 @@ import org.springframework.web.bind.annotation.RestController;
 import patientsServs.patientServicesEnrolment.ServiceLayer.LocationServices;
 import patientsServs.patientServicesEnrolment.models.Location;
 
+
 @RestController
 public class LocationServicesController {
 
+	
 	@Autowired
 	private LocationServices locationServices;
 	
+	
+	
+	//register a new location
 	@PostMapping("/new_location")
 	public ResponseEntity<String> newLocation(@RequestBody Location location) {
 		
@@ -33,8 +38,9 @@ public class LocationServicesController {
 		}
 	}
 	
+
 	
-	
+	//fetching all locations
 	@GetMapping("/locations")
 	public ResponseEntity<Object> locations(){
 		
@@ -44,5 +50,7 @@ public class LocationServicesController {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
 		}
 	}
+	
+	
 	
 }
