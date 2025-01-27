@@ -1,7 +1,6 @@
 package patientsServs.patientServicesEnrolment.ServiceLayer;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +11,13 @@ import patientsServs.patientServicesEnrolment.Repositories.DiseaseRepository;
 import patientsServs.patientServicesEnrolment.Repositories.MedicationRepository;
 import patientsServs.patientServicesEnrolment.Repositories.PatientRepository;
 import patientsServs.patientServicesEnrolment.models.Patient;
+import patientsServs.patientServicesEnrolment.serviceIMP.ServiceIMP;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Service
-public class PatientsServices {
+public class PatientsServices implements ServiceIMP{
 	
 	 // Logger for the PatientsServices class
     private static final Logger logger = LoggerFactory.getLogger(PatientsServices.class); 
@@ -150,30 +150,20 @@ public class PatientsServices {
 	
     
  // Get patients by Date of Birth (DOB) range
-    public List<Patient> byDOB(String startDate, String endDate) {
+    public List<Patient> byDOB(LocalDate startDate, LocalDate endDate) {
         logger.info("Fetching patients by DOB range: {} to {}", startDate, endDate);
         
-        LocalDate startingDate = LocalDate.parse(startDate);
-        LocalDate endingDate = LocalDate.parse(endDate);
+        List<Patient> patientsList = patientRep.findPatientsByDOBRange(startDate, endDate);
         
-        List<Patient> patientsList = patientRep.findAll();
-        List<Patient> sortedList = new ArrayList<>();
-        
-        for (Patient patient : patientsList) {
-            LocalDate currentDOB = patient.getDateOfBirth();
-            if ((currentDOB.isAfter(startingDate) && currentDOB.isBefore(endingDate)) || (startingDate.equals(currentDOB)) || (endingDate.equals(currentDOB))) {
-                sortedList.add(patient);
-            }
-        }
-        
-        if (sortedList.isEmpty()) {
+        if (patientsList.isEmpty()) {
             logger.warn("No patients found in the given DOB range: {} to {}", startDate, endDate);
         } else {
-            logger.info("Found {} patients in the given DOB range", sortedList.size());
+            logger.info("Found {} patients in the given DOB range", patientsList.size());
         }
         
-        return sortedList;
+        return patientsList;
     }
+    
     
     
     
@@ -182,18 +172,11 @@ public class PatientsServices {
     public List<Patient> getPatientByName(String patientName) {
     	
     	logger.info("Fetching patients by Name: {}",patientName);
-    	
-    	List<Patient> sortedPatientsList = new ArrayList<Patient>();
-    	
-    	for (Patient patient : patientRep.findAll()) {
-			if((patient.getName().equalsIgnoreCase(patientName)) || (patient.getName().toLowerCase().startsWith(patientName.toLowerCase()))) {
-				sortedPatientsList.add(patient);
-			}
-		}
-    	
-    	return sortedPatientsList;
+    	return patientRep.findPatientsByName(patientName);
+    
     	
     }
+
 	
 
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import patientsServs.patientServicesEnrolment.DTO.DOBRangeRequest;
 import patientsServs.patientServicesEnrolment.ServiceLayer.PatientsServices;
 import patientsServs.patientServicesEnrolment.models.Patient;
 
@@ -33,7 +34,7 @@ public class PatientServicesController {
 	PatientsServices services;
 
 	// Save a new patient
-	@PostMapping("/save_New_Patient")
+	@PostMapping("/new_Patient")
 	public ResponseEntity<Object> savePatient(@RequestBody Patient patient) {
 		logger.info("Attempting to save a new patient: {}", patient); // the attempt to save patient
 		return ResponseEntity.status(HttpStatus.CREATED).body(services.savePatient(patient));
@@ -43,7 +44,7 @@ public class PatientServicesController {
 	
 
 	// Get all patients
-	@GetMapping("/Patients")
+	@GetMapping("/patients")
 	public ResponseEntity<List<Patient>> getAllPatients() {
 		logger.info("Fetching all patients"); // the request for all patients
 		return ResponseEntity.status(HttpStatus.OK).body(services.getAllPatients());
@@ -53,7 +54,7 @@ public class PatientServicesController {
 	
 
 	// Get a patient by ID
-	@GetMapping("Patient_By_ID/{id}")
+	@GetMapping("patient_By_ID/{id}")
 	public ResponseEntity<Object> getPatientById(@PathVariable("id") Long id) {
 		logger.info("Fetching patient with ID: {}", id); // the request to fetch patient by ID
 		Patient patient = services.getPatientById(id);
@@ -72,7 +73,7 @@ public class PatientServicesController {
 	
 
 	// Update patient details by ID
-	@PutMapping("/update_Patient_By_Id/{id}")
+	@PutMapping("/patient_By_Id/{id}")
 	public ResponseEntity<String> updatePatient(@PathVariable("id") Long id, @RequestBody Patient patient) {
 		logger.info("Attempting to update patient with ID: {}", id); // the attempt to update patient
 		String status = services.updatePatient(id, patient);
@@ -92,7 +93,7 @@ public class PatientServicesController {
 
 	// Get the Overall Information like Total No of patients , disease and medicines
 	// registered
-	@GetMapping("/All_Registrations_Data")
+	@GetMapping("/total_Records_Data")
 	public ResponseEntity<String> getNoOfPatients() {
 		logger.info("Fetching the total number of registered patients"); // the request for registration data
 		return ResponseEntity.status(HttpStatus.OK).body(services.RegistarationDetails());
@@ -102,7 +103,7 @@ public class PatientServicesController {
 	
 
 	// Delete patient by ID
-	@DeleteMapping("/delete_Patient_ById/{id}")
+	@DeleteMapping("/patient_By_Id/{id}")
 	public ResponseEntity<String> DeletePatient(@PathVariable("id") Long id) {
 		logger.info("Attempting to delete patient with ID: {}", id); // the attempt to delete patient
 		if (!services.isPatientExist(id)) {
@@ -119,39 +120,38 @@ public class PatientServicesController {
 	
 	
 
-	// Delete patient by ID
-	@GetMapping("/by_Date_Of_Birth/{startDate}/{endDate}")
-	public ResponseEntity<Object> byDOB(@PathVariable("startDate") String startDate,
-			@PathVariable("endDate") String endDate) {
+	@PostMapping("/by_Date_Of_Birth")
+	public ResponseEntity<Object> byDOB(@RequestBody DOBRangeRequest dobRangeRequest) {
 
-		logger.info("Fetching patients by DOB range: {} - {}", startDate, endDate); // the request for DOB range
+	    LocalDate startDate = dobRangeRequest.getStartDate();
+	    LocalDate endDate = dobRangeRequest.getEndDate();
 
-		// checking date of birth like starting date must be less than ending date
-		LocalDate startingDate = LocalDate.parse(startDate);
-		LocalDate endingDate = LocalDate.parse(endDate);
+	    logger.info("Fetching patients by DOB range: {} - {}", startDate, endDate);
 
-		if (startingDate.isBefore(endingDate)) {
+	    // Check if the start date is before the end date
+	    if (startDate.isBefore(endDate)) {
 
-			if (services.byDOB(startDate, endDate).size() == 0) {
-				logger.info("No patients found for the given DOB range"); // if no patients are found
-				return ResponseEntity.status(HttpStatus.OK).body("NO PATIENTS AT GIVEN DATE OF BIRTH RANGE.");
-			} else {
-				logger.info("Patients found in the given DOB range"); // if patients are found
-				return ResponseEntity.status(HttpStatus.OK).body(services.byDOB(startDate, endDate));
-			}
-		} else {
-			logger.info("Given Date Range Invalid."); // if invalid date range
-			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-					.body("INVALID DATE RANGE, GIVEN STARTING DATE MUST BE SMALLER THAN ENDING DATE");
-		}
+	        List<Patient> patients = services.byDOB(startDate, endDate);
 
+	        if (patients.isEmpty()) {
+	            logger.info("No patients found for the given DOB range");
+	            return ResponseEntity.status(HttpStatus.OK).body("NO PATIENTS AT GIVEN DATE OF BIRTH RANGE.");
+	        } else {
+	            logger.info("Patients found in the given DOB range");
+	            return ResponseEntity.status(HttpStatus.OK).body(patients);
+	        }
+	    } else {
+	        logger.info("Given Date Range Invalid.");
+	        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+	                .body("INVALID DATE RANGE, GIVEN STARTING DATE MUST BE SMALLER THAN ENDING DATE");
+	    }
 	}
 	
 	
 	
 	
 	// fetch patient details by name
-	@GetMapping("/byName/{patientName}")
+	@GetMapping("/by_Name/{patientName}")
 	public ResponseEntity<Object> getPatientByName(@PathVariable("patientName") String patientName){
 		
 		if(services.getPatientByName(patientName).size() != 0) {
@@ -159,7 +159,6 @@ public class PatientServicesController {
 		}else {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body("PATIENTS NOT FOUND ON GIVEN NAME : " + patientName);
 		}
-		
 	}
 
 }

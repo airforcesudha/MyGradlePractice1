@@ -4,37 +4,39 @@ package patientsServs.patientServicesEnrolment.models;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "Table_Disease_Details")
+@Table(name = "Disease_tbl")
 public class Disease {
+	
+		
+		
 	 	@Id
 	 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	    private Long id;
 
 	    private String name;
+	    
+	    private String description;
+
+//	    @ManyToMany(mappedBy = "diseases")
+//	    @JsonBackReference
+//	    private List<Patient> patients = new ArrayList<>();
+//
+//	    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE})
+//	    @JoinTable(name = "Disease_Medication_tbl",
+//	               joinColumns = @JoinColumn(name = "disease_id"),
+//	               inverseJoinColumns = @JoinColumn(name = "medication_id"))
+//	    private List<Medication> medications;
 
 	    @ManyToMany(mappedBy = "diseases")
-	    @JsonBackReference
 	    private List<Patient> patients = new ArrayList<>();
-
-	    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE})
-	    @JoinTable(name = "Table_diseaseMedication_Details",
-	               joinColumns = @JoinColumn(name = "disease_id"),
-	               inverseJoinColumns = @JoinColumn(name = "medication_id"))
-	    private List<Medication> medications;
 
 		public Long getId() {
 			return id;
@@ -52,6 +54,14 @@ public class Disease {
 			this.name = name;
 		}
 
+		public String getDescription() {
+			return description;
+		}
+
+		public void setDescription(String description) {
+			this.description = description;
+		}
+
 		public List<Patient> getPatients() {
 			return patients;
 		}
@@ -60,13 +70,7 @@ public class Disease {
 			this.patients = patients;
 		}
 
-		public List<Medication> getMedications() {
-			return medications;
-		}
-
-		public void setMedications(List<Medication> medications) {
-			this.medications = medications;
-		}
+		
 	    
 	    
 }

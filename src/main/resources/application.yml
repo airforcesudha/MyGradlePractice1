@@ -3,25 +3,48 @@ spring:
   application:
     name: patientServicesEnrolment  # Name of the Spring Boot application
   datasource:
-    url: jdbc:sqlserver://mt-share;encrypt=false;databaseName=MT_Freshers Training;integratedSecurity=true
-    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: jdbc:postgresql://localhost:5432/MY_DB  # PostgreSQL connection URL
+    username: postgres  # PostgreSQL username
+    password: Reddy@2000  # PostgreSQL password
+    driver-class-name: org.postgresql.Driver  # PostgreSQL driver
   jpa:
     hibernate:
-      ddl-auto: update
-    show-sql: true
+      ddl-auto: update  # Automatically creates/updates the schema
+    show-sql: true  # Enables SQL query logging
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.SQLServerDialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect  # Hibernate dialect for PostgreSQL
 
 # Server-specific configurations
 server:
   port: 8081  # Application will run on this port
 
-# Logging configuration
-logging:
-  level:
-    root: INFO  # Default logging level
-    org.springframework: DEBUG  # Debug logging for Spring framework
-    patientsServs: DEBUG  # Debug logging for your package
-  file:
-    name: logs/patientServicesEnrolment.log  # Log file path
+
+
+
+#spring:
+#  application:
+#    name: patientServicesEnrolment  # Name of the Spring Boot application
+#  datasource:
+#    url: jdbc:sqlserver://mt-share;encrypt=false;databaseName=MT_Freshers Training;integratedSecurity=true
+#    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+#  jpa:
+#    hibernate:
+#      ddl-auto: update
+#    show-sql: true
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.SQLServerDialect
+#
+## Server-specific configurations
+#server:
+#  port: 8081  # Application will run on this port
+
+## Logging configuration
+#logging:
+#  level:
+#    root: INFO  # Default logging level
+#    org.springframework: DEBUG  # Debug logging for Spring framework
+#    patientsServs: DEBUG  # Debug logging for your package
+#  file:
+#    name: logs/patientServicesEnrolment.log  # Log file path
