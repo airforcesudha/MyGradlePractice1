@@ -22,6 +22,8 @@ public class HospitalServicesController {
 	private HospitalServices hospitalService;
 	
 	
+	
+	//creating new hospital
 	@PostMapping("/new_hospital")
 	public ResponseEntity<String> newHospital(@RequestBody Hospital hospital){
 		
@@ -38,7 +40,7 @@ public class HospitalServicesController {
 		
 	}
 	
-	
+	//adding list of department ids to specific hospital 
 	@PostMapping("/add_department/{hospital_id}")
 	public ResponseEntity<Object> addDepartmnet(@PathVariable("hospital_id") long hospital_id,@RequestBody AddDeptListRequest dList){
 		try {

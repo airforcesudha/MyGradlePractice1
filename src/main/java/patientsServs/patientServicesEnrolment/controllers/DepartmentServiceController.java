@@ -28,6 +28,8 @@ public class DepartmentServiceController {
 	}
 	
 	
+	
+	//register a new department in department table
 	@PostMapping("/register_new_department")
 	public ResponseEntity<Object> newDepartment(@RequestBody Department dept){
 		
