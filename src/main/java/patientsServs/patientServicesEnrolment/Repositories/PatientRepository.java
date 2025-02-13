@@ -1,4 +1,4 @@
-package patientsServs.patientServicesEnrolment.Repositories;
+package patientsServs.patientServicesEnrolment.repositories;
 
 
 import java.time.LocalDate;

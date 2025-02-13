@@ -5,6 +5,7 @@ package patientsServs.patientServicesEnrolment.DTO;
 public class EmployeeRegisterDTO {
 	
 	// Employee details
+	private Long employeeId;
     private String name;
     private double salary;
     private String address;
@@ -81,4 +82,13 @@ public class EmployeeRegisterDTO {
         this.specialization = specialization;
     }
 
+	public long getEmployeeId() {
+		return employeeId;
+	}
+
+	public void setEmployeeId(long employeeId) {
+		this.employeeId = employeeId;
+	}
+
+    
 }

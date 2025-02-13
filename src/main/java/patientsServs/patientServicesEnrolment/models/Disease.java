@@ -1,77 +1,74 @@
 package patientsServs.patientServicesEnrolment.models;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.*;
+import patientsServs.patientServicesEnrolment.Auditable;
 
 @Entity
-@Table(name = "Disease_tbl")
-public class Disease {
-	
-		
-		
-	 	@Id
-	 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	    private Long id;
+@Table(name = "Diseases") // Defines the table name for the Disease entity
+public class Disease extends Auditable {
 
-	    private String name;
-	    
-	    private String description;
+    @Id // Specifies the primary key of the entity
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the ID value
+    private Long id;
 
-//	    @ManyToMany(mappedBy = "diseases")
-//	    @JsonBackReference
-//	    private List<Patient> patients = new ArrayList<>();
-//
-//	    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE})
-//	    @JoinTable(name = "Disease_Medication_tbl",
-//	               joinColumns = @JoinColumn(name = "disease_id"),
-//	               inverseJoinColumns = @JoinColumn(name = "medication_id"))
-//	    private List<Medication> medications;
+    private String name; // Disease name
 
-	    @ManyToMany(mappedBy = "diseases")
-	    private List<Patient> patients = new ArrayList<>();
+    private String description; // Disease description
 
-		public Long getId() {
-			return id;
-		}
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}) // Many-to-many relationship with Medication
+    @JoinTable(name = "DiseaseMedication", // Join table to link diseases and medications
+               joinColumns = @JoinColumn(name = "diseaseId"), // Column to link to the Disease entity
+               inverseJoinColumns = @JoinColumn(name = "medicationId")) // Column to link to the Medication entity
+    private List<Medication> medications; // List of medications associated with this disease
 
-		public void setId(Long id) {
-			this.id = id;
-		}
+    @ManyToMany(mappedBy = "diseases") // Many-to-many relationship with Patient, mapped by 'diseases' in Patient
+    @JsonBackReference // Prevents circular references in JSON serialization
+    private List<Patient> patients = new ArrayList<>(); // List of patients who have this disease
 
-		public String getName() {
-			return name;
-		}
+    // Getters and setters for the fields
 
-		public void setName(String name) {
-			this.name = name;
-		}
+    public Long getId() {
+        return id; // Returns the disease ID
+    }
 
-		public String getDescription() {
-			return description;
-		}
+    public void setId(Long id) {
+        this.id = id; // Sets the disease ID
+    }
 
-		public void setDescription(String description) {
-			this.description = description;
-		}
+    public String getName() {
+        return name; // Returns the disease name
+    }
 
-		public List<Patient> getPatients() {
-			return patients;
-		}
+    public void setName(String name) {
+        this.name = name; // Sets the disease name
+    }
 
-		public void setPatients(List<Patient> patients) {
-			this.patients = patients;
-		}
+    public String getDescription() {
+        return description; // Returns the disease description
+    }
 
-		
-	    
-	    
+    public void setDescription(String description) {
+        this.description = description; // Sets the disease description
+    }
+
+    public List<Patient> getPatients() {
+        return patients; // Returns the list of patients with this disease
+    }
+
+    public void setPatients(List<Patient> patients) {
+        this.patients = patients; // Sets the list of patients with this disease
+    }
+
+    public List<Medication> getMedications() {
+        return medications; // Returns the list of medications for this disease
+    }
+
+    public void setMedications(List<Medication> medications) {
+        this.medications = medications; // Sets the list of medications for this disease
+    }
 }
-

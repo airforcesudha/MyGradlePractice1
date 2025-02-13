@@ -2,7 +2,7 @@ package patientsServs.patientServicesEnrolment.serviceIMP;
 
 import java.util.List;
 
-import patientsServs.patientServicesEnrolment.DTO.Department_DTO;
+import patientsServs.patientServicesEnrolment.DTO.DepartmentDTO;
 import patientsServs.patientServicesEnrolment.models.Department;
 
 public interface DepartmentServiceIMP {
@@ -11,6 +11,6 @@ public interface DepartmentServiceIMP {
     Department saveNewDepartment(Department dept);
 
     // Method to get the list of all departments
-    List<Department_DTO> departments();
+    List<DepartmentDTO> departments();
 
 }

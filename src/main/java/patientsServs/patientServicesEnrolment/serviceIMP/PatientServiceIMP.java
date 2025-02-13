@@ -3,15 +3,18 @@ package patientsServs.patientServicesEnrolment.serviceIMP;
 import java.time.LocalDate;
 import java.util.List;
 
+import patientsServs.patientServicesEnrolment.DTO.PatientDTO;
+import patientsServs.patientServicesEnrolment.DTO.ReportDTO;
 import patientsServs.patientServicesEnrolment.models.Patient;
+import patientsServs.patientServicesEnrolment.models.Report;
 
-public interface ServiceIMP {
+public interface PatientServiceIMP {
 	
 	// Check if patient exists
     boolean isPatientExist(Long patientId);
 
     // Save patient
-    Patient savePatient(Patient patient);
+    Patient savePatient(PatientDTO patientDetails);
 
     // Get all patients
     List<Patient> getAllPatients();
@@ -33,5 +36,11 @@ public interface ServiceIMP {
 
     // Get patient by name
     List<Patient> getPatientByName(String patientName);
+
+	String addPatientReport(Report report);
+
+	List<ReportDTO> patientReports(Long patientId);
+
+	
 
 }

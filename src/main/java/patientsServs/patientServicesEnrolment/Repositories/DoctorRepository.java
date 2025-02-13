@@ -1,4 +1,4 @@
-package patientsServs.patientServicesEnrolment.Repositories;
+package patientsServs.patientServicesEnrolment.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

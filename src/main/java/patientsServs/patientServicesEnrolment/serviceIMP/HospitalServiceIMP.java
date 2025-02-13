@@ -12,4 +12,10 @@ public interface HospitalServiceIMP {
     
     // Method to add departments to an existing hospital
     Hospital addDept(long hosp_Id, List<Long> depts_List);
+
+	Hospital getHospital(Long hospitalId);
+
+	List<Hospital> getHospitalByLocationId(Long locationId);
+
+	List<Hospital> getHospitalByName(String hospitalName);
 }

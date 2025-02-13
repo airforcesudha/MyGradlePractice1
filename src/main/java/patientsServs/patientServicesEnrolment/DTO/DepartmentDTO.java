@@ -1,6 +1,6 @@
 package patientsServs.patientServicesEnrolment.DTO;
 
-public class Department_DTO {
+public class DepartmentDTO {
 
 	 private Long id;
 
@@ -9,7 +9,7 @@ public class Department_DTO {
 	 
 	 
 
-	public Department_DTO(Long id, String name) {
+	public DepartmentDTO(Long id, String name) {
 		super();
 		this.id = id;
 		this.name = name;

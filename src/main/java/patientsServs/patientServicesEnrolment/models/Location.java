@@ -4,10 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import patientsServs.patientServicesEnrolment.Auditable;
 
 @Entity
-@Table(name = "Locations_tbl")
-public class Location {
+@Table(name = "Locations")
+public class Location extends Auditable{
+	
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -1,10 +1,11 @@
 package patientsServs.patientServicesEnrolment.models;
 
 import jakarta.persistence.*;
+import patientsServs.patientServicesEnrolment.Auditable;
 
 @Entity
-@Table(name = "Employees_tbl")
-public class Employee {
+@Table(name = "Employees")
+public class Employee extends Auditable{
 	
 	
     @Id
@@ -25,12 +26,12 @@ public class Employee {
     
     
     @ManyToOne
-    @JoinColumn(name = "hospital_id") // Relationship with Hospital
+    @JoinColumn(name = "hospitalId") // Relationship with Hospital
     private Hospital hospital;
 
     
     @ManyToOne
-    @JoinColumn(name = "department_id") // Relationship with Department
+    @JoinColumn(name = "departmentId") // Relationship with Department
     private Department department;
 
 
@@ -111,15 +112,7 @@ public class Employee {
 	public void setDepartment(Department department) {
 		this.department = department;
 	}
-    
-    
-    
-    
-
-    
-    
-    
-
-    
+	
+	
     
 }

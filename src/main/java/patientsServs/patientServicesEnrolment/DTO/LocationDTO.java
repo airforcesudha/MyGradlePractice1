@@ -1,6 +1,6 @@
 package patientsServs.patientServicesEnrolment.DTO;
 
-public class Location_DTO {
+public class LocationDTO {
 
 	private Long id;
     private String state;
@@ -8,7 +8,7 @@ public class Location_DTO {
     private String country;
     private String pincode;
     
-    public Location_DTO(Long id, String state, String city, String country, String pincode) {
+    public LocationDTO(Long id, String state, String city, String country, String pincode) {
         this.id = id;
         this.state = state;
         this.city = city;

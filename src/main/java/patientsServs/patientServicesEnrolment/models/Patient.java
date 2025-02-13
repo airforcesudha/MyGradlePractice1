@@ -5,12 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import patientsServs.patientServicesEnrolment.Auditable;
 
 
 
 @Entity
-@Table(name = "Patient_tbl")
-public class Patient {
+@Table(name = "Patients")
+public class Patient extends Auditable{
 
 	
     // Primary key for the Patient entity, with auto-generated value.
@@ -30,27 +31,29 @@ public class Patient {
    
     
     
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE,CascadeType.REMOVE})
     @JoinTable(
-        name = "Patient_Disease_tbl", 
-        joinColumns = @JoinColumn(name = "patient_id"),
-        inverseJoinColumns = @JoinColumn(name = "disease_id")
+        name = "PatientDisease", 
+        joinColumns = @JoinColumn(name = "patientId"),
+        inverseJoinColumns = @JoinColumn(name = "diseaseId")
     )
     private List<Disease> diseases = new ArrayList<>();
+    
+    
 
-    
-    
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-    @JoinTable(
-        name = "Patient_Medication_tbl", 
-        joinColumns = @JoinColumn(name = "patient_id"),
-        inverseJoinColumns = @JoinColumn(name = "medication_id")
-    )
-    private List<Medication> medications = new ArrayList<>();
     
    
     @ManyToMany(mappedBy = "patients")
     private List<Doctor> doctors = new ArrayList<>();
+    
+    
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Report> reports = new ArrayList<>();
+    
+    
+    @ManyToOne
+    @JoinColumn(name = "hospitalId",referencedColumnName = "id")
+    private Hospital hospital;
 
 
 	public Long getId() {
@@ -113,17 +116,6 @@ public class Patient {
 
 
 
-	public List<Medication> getMedications() {
-		return medications;
-	}
-
-
-
-	public void setMedications(List<Medication> medications) {
-		this.medications = medications;
-	}
-
-
 
 	public List<Doctor> getDoctors() {
 		return doctors;
@@ -134,6 +126,33 @@ public class Patient {
 	public void setDoctors(List<Doctor> doctors) {
 		this.doctors = doctors;
 	}
+
+
+
+	public List<Report> getReports() {
+		return reports;
+	}
+
+
+
+	public void setReports(List<Report> reports) {
+		this.reports = reports;
+	}
+
+
+
+	public Hospital getHospital() {
+		return hospital;
+	}
+
+
+
+	public void setHospital(Hospital hospital) {
+		this.hospital = hospital;
+	}
+	
+	
+	
     
 
 }

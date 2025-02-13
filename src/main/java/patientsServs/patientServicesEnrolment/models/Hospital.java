@@ -6,10 +6,11 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.*;
+import patientsServs.patientServicesEnrolment.Auditable;
 
 @Entity
-@Table(name = "Hospitals_tbl")
-public class Hospital {
+@Table(name = "Hospitals")
+public class Hospital extends Auditable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,15 +23,18 @@ public class Hospital {
 
     @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE })
     @JoinTable(
-        name = "Hospital_Department_tbl", // Name of the join table
-        joinColumns = @JoinColumn(name = "hospital_id"), // Foreign key to Hospital
-        inverseJoinColumns = @JoinColumn(name = "department_id") // Foreign key to Department
+        name = "HospitalDepartment", // Name of the join table
+        joinColumns = @JoinColumn(name = "hospitalId"), // Foreign key to Hospital
+        inverseJoinColumns = @JoinColumn(name = "departmentId") // Foreign key to Department
     )
     private List<Department> departments = new ArrayList<>();
 
     @ManyToOne
-    @JoinColumn(name = "location_id") // Relationship with Location
+    @JoinColumn(name = "locationId") // Relationship with Location
     private Location location;
+    
+    @OneToMany(mappedBy = "hospital", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Patient> patients = new ArrayList<>();
 
 	public Long getId() {
 		return id;
@@ -70,6 +74,14 @@ public class Hospital {
 
 	public void setLocation(Location location) {
 		this.location = location;
+	}
+
+	public List<Patient> getPatients() {
+		return patients;
+	}
+
+	public void setPatients(List<Patient> patients) {
+		this.patients = patients;
 	}
 
 	

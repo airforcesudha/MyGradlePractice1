@@ -1,127 +1,86 @@
 package patientsServs.patientServicesEnrolment.models;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.*;
+import patientsServs.patientServicesEnrolment.Auditable;
 
 @Entity
-@Table(name = "Departments_tbl")
-public class Department {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+@Table(name = "Departments") // Defines the table name for the Department entity
+public class Department extends Auditable {
+
+    @Id // Specifies the primary key of the entity
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Auto-generates the ID value
     private Long id;
 
-    private String name;
+    private String name; // Department name
 
-    @ManyToMany(mappedBy = "departments")
-    private List<Hospital> hospitals = new ArrayList<>();
-    
-    
-    
-    
-    
-    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
-    private List<Employee> employees = new ArrayList<>();
+    @ManyToMany(mappedBy = "departments") // Many-to-many relationship with Hospital
+    private List<Hospital> hospitals = new ArrayList<>(); // List of hospitals associated with this department
 
+    @OneToMany(mappedBy = "department", cascade = CascadeType.ALL) // One-to-many relationship with Employee
+    private List<Employee> employees = new ArrayList<>(); // List of employees working in this department
 
+    // Getters and setters for the fields
 
-	
-	// Audit columns
-    @Column(name = "created_by", updatable = false)
-    private String createdBy;
-
-    @Column(name = "created_date", updatable = false)
-    private LocalDateTime createdDate;
-
-    @Column(name = "updated_by")
-    private String updatedBy;
-
-    @Column(name = "updated_date")
-    private LocalDateTime updatedDate;
-
-    @PrePersist
-    public void prePersist() {
-        this.createdDate = LocalDateTime.now();
-        this.createdBy = "admin"; // You can replace this with actual user info, like from Spring Security
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        this.updatedDate = LocalDateTime.now();
-        this.updatedBy = "admin"; // You can replace this with actual user info, like from Spring Security
-    }
-
-    // Getters and setters
     public Long getId() {
-        return id;
+        return id; // Returns the department ID
     }
 
     public void setId(Long id) {
-        this.id = id;
+        this.id = id; // Sets the department ID
     }
 
     public String getName() {
-        return name;
+        return name; // Returns the department name
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name; // Sets the department name
     }
 
     public List<Hospital> getHospitals() {
-        return hospitals;
+        return hospitals; // Returns the list of hospitals associated with the department
     }
 
     public void setHospitals(List<Hospital> hospitals) {
-        this.hospitals = hospitals;
+        this.hospitals = hospitals; // Sets the list of hospitals associated with the department
     }
 
     public List<Employee> getEmployees() {
-        return employees;
+        return employees; // Returns the list of employees working in this department
     }
 
     public void setEmployees(List<Employee> employees) {
-        this.employees = employees;
+        this.employees = employees; // Sets the list of employees working in the department
     }
 
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public String getUpdatedBy() {
-        return updatedBy;
-    }
-
-    public void setUpdatedBy(String updatedBy) {
-        this.updatedBy = updatedBy;
-    }
-
-    public LocalDateTime getUpdatedDate() {
-        return updatedDate;
-    }
-
-    public void setUpdatedDate(LocalDateTime updatedDate) {
-        this.updatedDate = updatedDate;
-    }
-
-   
-	
-
-
+    // The following commented-out code is for auditing fields, typically used for tracking
+    // entity creation and modification times, and who made those changes.
     
-}
+//    @Column(name = "createdBy", updatable = false) 
+//    private String createdBy; // Stores the user who created the department
 
+//    @Column(name = "createdDate", updatable = false)
+//    private LocalDateTime createdDate; // Stores the creation timestamp
+
+//    @Column(name = "updatedBy")
+//    private String updatedBy; // Stores the user who last updated the department
+
+//    @Column(name = "updatedDate")
+//    private LocalDateTime updatedDate; // Stores the last updated timestamp
+
+//    @PrePersist
+//    public void prePersist() {
+//        this.createdDate = LocalDateTime.now(); // Sets the creation timestamp
+//        this.createdBy = "admin"; // Sets the createdBy to "admin" (replace with actual user info)
+//    }
+
+//    @PreUpdate
+//    public void preUpdate() {
+//        this.updatedDate = LocalDateTime.now(); // Sets the updated timestamp
+//        this.updatedBy = "admin"; // Sets the updatedBy to "admin" (replace with actual user info)
+//    }
+
+}
